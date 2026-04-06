@@ -23,6 +23,35 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 12,
     marginBottom: 20,
   },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: '#7C4DFF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    textAlign: 'center',
+  },
+  link: {
+    color: '#7C4DFF',
+    textAlign: 'center',
+    marginTop: 15,
+  },
+  error: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 5,
+  },
   text: {
     fontSize: 16,
     color: '#000',

@@ -132,12 +132,11 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 10,
   },
   card: {
-    width: '100%',
+    flex: 1,
     backgroundColor: '#fff',
     borderRadius: 12,
-    padding: 20,
-    marginBottom: 10,
-    alignItems: 'center',
+    padding: 10,
+    margin: 5,
   },
     footerContainer: {
     width: '100%',
@@ -150,5 +149,41 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 25,
     alignItems: 'center',
+  },
+  cardHeader: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  cardActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  cardIcon: {
+    width: 20,
+    height: 20,
+  },
+  cardBody: {
+    width: '100%',
+    position: 'relative',
+  },
+  cardImage: {
+    width: '100%',
+    height: 120,
+    borderRadius: 12,
+  },
+  infoIconContainer: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20,
   },
 });

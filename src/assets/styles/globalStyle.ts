@@ -6,7 +6,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: '#EDE7F6',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding: 5,
   },
   box: {
     width: '80%',
@@ -15,6 +15,15 @@ export const globalStyles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     marginBottom: 20,
+  },
+  section: {
+    width: '100%',
+    flex: 1,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   imageBox: {
     width: '80%',
@@ -61,5 +70,85 @@ export const globalStyles = StyleSheet.create({
     fontSize: 24,
     color: '#000',
     fontFamily: 'CustomFontBold'
-  }
+  },
+  headerContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: '#7C4DFF',
+  },
+  headerCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerImage: {
+    width: 30,
+    height: 30,
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontFamily: 'CustomFontBold'
+  },
+  optionsContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  optionCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionIcon: {
+    width: 24,
+    height: 24,
+  },
+  searchInput: {
+    flex: 1,
+    marginHorizontal: 10,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 15,
+    height: 50,
+  },
+  galleryContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  galleryContent: {
+    paddingVertical: 10,
+  },
+  card: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 20,
+    marginBottom: 10,
+    alignItems: 'center',
+  },
+    footerContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  footerButton: {
+    backgroundColor: '#7C4DFF',
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 25,
+    alignItems: 'center',
+  },
 });

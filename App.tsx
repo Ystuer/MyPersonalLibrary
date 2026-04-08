@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { globalStyles } from './src/assets/styles/globalStyle';
 import * as  SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import DashboardScreen from './src/screens/DashboardScreen';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,9 +23,6 @@ export default function App() {
   if(!fontsLoaded) return null;
 
   return (
-    <View style={globalStyles.container}>
-      <Text style={globalStyles.text}>Hello with custom font</Text>
-      <StatusBar style="auto" />
-    </View>
+    <DashboardScreen/>
   );
 }

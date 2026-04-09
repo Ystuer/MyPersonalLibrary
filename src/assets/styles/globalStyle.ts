@@ -45,7 +45,7 @@ export const globalStyles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   buttonText: {
     color: '#fff',
@@ -185,5 +185,49 @@ export const globalStyles = StyleSheet.create({
     right: 10,
     backgroundColor: '#fff',
     borderRadius: 20,
+  },
+  sectionTitle: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  marginBottom: 10,
+  },
+  placeholderBox: {
+    width: '100%',
+    height: 100,
+    backgroundColor: '#DDD',
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  genreContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  genreItem: {
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    backgroundColor: '#eee',
+  },
+  genreItemSelected: {
+    backgroundColor: '#7C4DFF',
+  },
+  genreTextSelected: {
+    color: '#fff',
+  },
+  buttonRow: {
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+  },
+  secondaryButton: {
+    backgroundColor: '#ccc',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginRight: 5,
+  },
+  secondaryButtonText: {
+    color: '#000',
   },
 });

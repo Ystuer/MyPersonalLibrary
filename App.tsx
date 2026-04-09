@@ -1,10 +1,7 @@
 import { useFonts } from 'expo-font';
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
-import { globalStyles } from './src/assets/styles/globalStyle';
 import * as  SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import DashboardScreen from './src/screens/DashboardScreen';
+import AddBookScreen from './src/screens/AddBookScreen';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,6 +20,6 @@ export default function App() {
   if(!fontsLoaded) return null;
 
   return (
-    <DashboardScreen/>
+    <AddBookScreen />
   );
 }

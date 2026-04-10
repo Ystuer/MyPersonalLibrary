@@ -1,11 +1,15 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import { globalStyles } from '../styles/globalStyle';
+import { createGlobalStyles } from '../styles/globalStyle';
+import { useTheme } from '../../context/ThemeContext';
 
 export default function Footer() {
+  const { theme } = useTheme();
+  const styles = createGlobalStyles(theme);
+  
   return (
-    <View style={globalStyles.footerContainer}>
-      <TouchableOpacity style={globalStyles.footerButton}>
-        <Text style={globalStyles.buttonText}>Add new title to collection</Text>
+    <View style={styles.footerContainer}>
+      <TouchableOpacity style={styles.footerButton}>
+        <Text style={styles.buttonText}>Add new title to collection</Text>
       </TouchableOpacity>
     </View>
   );

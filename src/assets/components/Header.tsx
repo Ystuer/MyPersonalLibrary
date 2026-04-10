@@ -1,26 +1,30 @@
 import { Image, View, Text, TouchableOpacity } from "react-native";
-import { globalStyles } from "../styles/globalStyle";
+import { createGlobalStyles } from "../styles/globalStyle";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Header() {
+    const { theme } = useTheme();
+    const styles = createGlobalStyles(theme);
+
     return (
-        <View style={globalStyles.headerContainer}>
+        <View style={styles.headerContainer}>
             {/* Left - Logo */}
-            <View style={globalStyles.headerCircle}>
+            <View style={styles.circleButton}>
                 <Image
                     source={require('../images/MinimalistOpenBookIconCropped.png')}
-                    style={globalStyles.headerImage}
+                    style={styles.iconLg}
                     resizeMode="contain"
                 />
             </View>
 
             {/* Middle - Title */}
-            <Text style={globalStyles.headerTitle}>My Personal Library</Text>
+            <Text style={styles.headerTitle}>My Personal Library</Text>
 
             {/* Right - Button */}
-            <TouchableOpacity style={globalStyles.headerCircle}>
+            <TouchableOpacity style={styles.circleButton}>
                 <Image
                 source={require('../images/icons/user.png')}
-                style={globalStyles.headerImage}
+                style={styles.iconLg}
                 resizeMode="contain"
                 />
             </TouchableOpacity>

@@ -1,16 +1,18 @@
 import { StyleSheet } from 'react-native';
+import { lightColors } from '../shared/colors';
 
-export const globalStyles = StyleSheet.create({
+
+export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#EDE7F6',
+    backgroundColor: theme.background,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
   },
   box: {
     width: '80%',
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     borderRadius: 12,
     padding: 20,
     alignItems: 'center',
@@ -19,7 +21,7 @@ export const globalStyles = StyleSheet.create({
   section: {
     width: '100%',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     borderRadius: 12,
     marginBottom: 10,
     alignItems: 'center',
@@ -28,31 +30,31 @@ export const globalStyles = StyleSheet.create({
   imageBox: {
     width: '80%',
     height: 150,
-    backgroundColor: '#DDD',
+    backgroundColor: theme.secondaryBackground,
     borderRadius: 12,
     marginBottom: 20,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: theme.secondaryBackground,
     borderRadius: 8,
     padding: 10,
     marginBottom: 10,
     width: '100%',
   },
   button: {
-    backgroundColor: '#7C4DFF',
+    backgroundColor: theme.primary,
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
     marginTop: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: theme.textInverse,
     textAlign: 'center',
   },
   link: {
-    color: '#7C4DFF',
+    color: theme.primary,
     textAlign: 'center',
     marginTop: 15,
   },
@@ -63,13 +65,8 @@ export const globalStyles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#000',
+    color: theme.text,
     fontFamily: 'CustomFontRegular'
-  },
-  Highlighted: {
-    fontSize: 24,
-    color: '#000',
-    fontFamily: 'CustomFontBold'
   },
   headerContainer: {
     width: '100%',
@@ -78,17 +75,17 @@ export const globalStyles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor: '#7C4DFF',
+    backgroundColor: theme.primary,
   },
-  headerCircle: {
+  circleButton: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerImage: {
+  iconLg: {
     width: 30,
     height: 30,
   },
@@ -104,22 +101,14 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
   },
-  optionCircle: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  optionIcon: {
+  iconMd: {
     width: 24,
     height: 24,
   },
   searchInput: {
     flex: 1,
     marginHorizontal: 10,
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     borderRadius: 12,
     paddingHorizontal: 15,
     height: 50,
@@ -133,18 +122,18 @@ export const globalStyles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     borderRadius: 12,
     padding: 10,
     margin: 5,
   },
-    footerContainer: {
+  footerContainer: {
     width: '100%',
     alignItems: 'center',
     paddingVertical: 10,
   },
   footerButton: {
-    backgroundColor: '#7C4DFF',
+    backgroundColor: theme.primary,
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -166,7 +155,7 @@ export const globalStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
   },
-  cardIcon: {
+  iconSm: {
     width: 20,
     height: 20,
   },
@@ -183,18 +172,19 @@ export const globalStyles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     right: 10,
-    backgroundColor: '#fff',
+    backgroundColor: theme.textInverse,
     borderRadius: 20,
   },
   sectionTitle: {
   fontSize: 16,
-  fontWeight: 'bold',
+  color: theme.text,
+  fontFamily: 'CustomFontBold',
   marginBottom: 10,
   },
   placeholderBox: {
     width: '100%',
     height: 100,
-    backgroundColor: '#DDD',
+    backgroundColor: theme.secondaryBackground,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
@@ -208,26 +198,36 @@ export const globalStyles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 20,
-    backgroundColor: '#eee',
+    backgroundColor: theme.secondaryBackground,
   },
   genreItemSelected: {
-    backgroundColor: '#7C4DFF',
+    backgroundColor: theme.primary,
   },
   genreTextSelected: {
-    color: '#fff',
+    color: theme.textInverse,
   },
   buttonRow: {
   flexDirection: 'row',
   justifyContent: 'space-evenly',
   },
-  secondaryButton: {
-    backgroundColor: '#ccc',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginRight: 5,
-  },
   secondaryButtonText: {
-    color: '#000',
+    color: theme.text,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '80%',
+    backgroundColor: theme.textInverse,
+    borderRadius: 12,
+    padding: 20,
+  },
+  optionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });

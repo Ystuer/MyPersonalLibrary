@@ -1,7 +1,8 @@
 import { useFonts } from 'expo-font';
 import * as  SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import AddBookScreen from './src/screens/AddBookScreen';
+import DashboardScreen from './src/screens/DashboardScreen';
+import { ThemeProvider } from './src/context/ThemeContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +21,8 @@ export default function App() {
   if(!fontsLoaded) return null;
 
   return (
-    <AddBookScreen />
+    <ThemeProvider>
+      <DashboardScreen />
+    </ThemeProvider>
   );
 }

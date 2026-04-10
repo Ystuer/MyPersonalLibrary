@@ -1,41 +1,45 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { globalStyles } from '../styles/globalStyle';
+import { createGlobalStyles } from '../styles/globalStyle';
+import { useTheme } from '../../context/ThemeContext';
 
 type Props = {
   title: string;
 };
 
 export default function BookCard({ title }: Props) {
-  return (
-    <View style={globalStyles.card}>
-      {/* First Division */}
-      <View style={globalStyles.cardHeader}>
-        <Text style={globalStyles.cardTitle}>{title}</Text>
+  const { theme } = useTheme();
+  const styles = createGlobalStyles(theme);
 
-        <View style={globalStyles.cardActions}>
+  return (
+    <View style={styles.card}>
+      {/* First Division */}
+      <View style={styles.cardHeader}>
+        <Text style={styles.cardTitle}>{title}</Text>
+
+        <View style={styles.cardActions}>
           <Image
             source={require('../images/icons/gear.png')}
-            style={globalStyles.cardIcon}
+            style={styles.iconSm}
           />
           <Image
             source={require('../images/icons/bin.png')}
-            style={globalStyles.cardIcon}
+            style={styles.iconSm}
           />
         </View>
       </View>
 
       {/* Second Division */}
-      <View style={globalStyles.cardBody}>
+      <View style={styles.cardBody}>
         <Image
           source={require('../images/testCover.jpg')}
-          style={globalStyles.cardImage}
+          style={styles.cardImage}
           resizeMode="contain"
         />
 
-        <TouchableOpacity style={globalStyles.infoIconContainer}>
+        <TouchableOpacity style={styles.infoIconContainer}>
           <Image
             source={require('../images/icons/info.png')}
-            style={globalStyles.cardIcon}
+            style={styles.iconSm}
           />
         </TouchableOpacity>
       </View>

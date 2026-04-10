@@ -1,7 +1,8 @@
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Yup from 'yup';
-import { globalStyles } from '../assets/styles/globalStyle';
+import { createGlobalStyles } from '../assets/styles/globalStyle';
 import { Formik } from 'formik';
+import { useTheme } from '../context/ThemeContext';
 
 const AddBookSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -12,20 +13,23 @@ const AddBookSchema = Yup.object().shape({
 });
 
 export default function AddBookScreen() {
+    const { theme } = useTheme();
+    const styles = createGlobalStyles(theme);
+    
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={globalStyles.container}>
+            <View style={styles.container}>
                 {/* First Division */}
-                <View style={globalStyles.box}>
-                    <Text style={globalStyles.sectionTitle}>Add new Title</Text>
-                    <View style={globalStyles.placeholderBox}>
+                <View style={styles.box}>
+                    <Text style={styles.sectionTitle}>Add new Title</Text>
+                    <View style={styles.placeholderBox}>
                         <Text>API / Search Placeholder</Text>
                     </View>
                 </View>
 
                 {/* Second Division */}
-                <View style={globalStyles.box}>
-                    <Text style={globalStyles.sectionTitle}>
+                <View style={styles.box}>
+                    <Text style={styles.sectionTitle}>
                         Didn't find it? Do it manually
                     </Text>
 
@@ -51,40 +55,40 @@ export default function AddBookScreen() {
                             <View style={{ width: '100%' }}>
                                 <TextInput 
                                     placeholder='Title'
-                                    style={globalStyles.input}
+                                    style={styles.input}
                                     onChangeText={handleChange('title')}
                                     onBlur={handleBlur('title')}
                                     value={values.title}
                                 />
-                                {errors.title && touched.title && (<Text style={globalStyles.error}>{errors.title}</Text>)}
+                                {errors.title && touched.title && (<Text style={styles.error}>{errors.title}</Text>)}
 
                                 <TextInput
                                     placeholder='Author'
-                                    style={globalStyles.input}
+                                    style={styles.input}
                                     onChangeText={handleChange('author')}
                                     onBlur={handleBlur('author')}
                                     value={values.author}
                                 />
-                                {errors.author && touched.author && (<Text style={globalStyles.error}>{errors.author}</Text>)}
+                                {errors.author && touched.author && (<Text style={styles.error}>{errors.author}</Text>)}
 
                                 <View style={{ marginBottom: 10 }}>
                                     <Text style={{ marginBottom: 5 }}>Genre</Text>
 
-                                    <View style={globalStyles.genreContainer}>
+                                    <View style={styles.genreContainer}>
                                         {['fiction', 'nonfiction', 'fantasy', 'scifi', 'mystery', 'biography'].map(
                                         (genre) => (
                                             <TouchableOpacity
                                             key={genre}
                                             style={[
-                                                globalStyles.genreItem,
-                                                values.genre === genre && globalStyles.genreItemSelected,
+                                                styles.genreItem,
+                                                values.genre === genre && styles.genreItemSelected,
                                             ]}
                                             onPress={() => handleChange('genre')(genre)}
                                             >
                                             <Text
                                                 style={
                                                 values.genre === genre
-                                                    ? globalStyles.genreTextSelected
+                                                    ? styles.genreTextSelected
                                                     : undefined
                                                 }
                                             >
@@ -95,32 +99,32 @@ export default function AddBookScreen() {
                                         )}
                                     </View>
                                 </View>
-                                {errors.genre && touched.genre && (<Text style={globalStyles.error}>{errors.genre}</Text>)}
+                                {errors.genre && touched.genre && (<Text style={styles.error}>{errors.genre}</Text>)}
 
                                 <TextInput
                                     placeholder="Total Pages"
-                                    style={globalStyles.input}
+                                    style={styles.input}
                                     keyboardType="numeric"
                                     onChangeText={handleChange('pages')}
                                     onBlur={handleBlur('pages')}
                                     value={values.pages}
                                 />
-                                {errors.pages && touched.pages && (<Text style={globalStyles.error}>{errors.pages}</Text>)}
+                                {errors.pages && touched.pages && (<Text style={styles.error}>{errors.pages}</Text>)}
 
                                 <TextInput
                                     placeholder="Publish Date"
-                                    style={globalStyles.input}
+                                    style={styles.input}
                                     onChangeText={handleChange('publishDate')}
                                     onBlur={handleBlur('publishDate')}
                                     value={values.publishDate}
                                 />
-                                {errors.publishDate && touched.publishDate && (<Text style={globalStyles.error}>{errors.publishDate}</Text>)}
-                                <View style={globalStyles.buttonRow}>
-                                    <TouchableOpacity onPress={() => handleSubmit()} style={globalStyles.button}>
-                                        <Text style={globalStyles.buttonText}>Add Book</Text>
+                                {errors.publishDate && touched.publishDate && (<Text style={styles.error}>{errors.publishDate}</Text>)}
+                                <View style={styles.buttonRow}>
+                                    <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
+                                        <Text style={styles.buttonText}>Add Book</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={globalStyles.secondaryButton}>
-                                        <Text style={globalStyles.secondaryButtonText}>Back</Text>
+                                    <TouchableOpacity style={styles.button}>
+                                        <Text style={styles.secondaryButtonText}>Back</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

@@ -1,29 +1,40 @@
 import { Image, TextInput, TouchableOpacity, View } from "react-native";
-import { globalStyles } from "../styles/globalStyle";
+import { createGlobalStyles } from "../styles/globalStyle";
+import { useState } from "react";
+import OptionsModal from "./OptionsModal";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function Options() {
+    const [modalVisible, setModalVisible] = useState(false);
+    const { theme } = useTheme();
+    const styles = createGlobalStyles(theme);
+
     return (
-        <View style={globalStyles.optionsContainer}>
+        <View style={styles.optionsContainer}>
             {/* Left - Filter */}
-            <TouchableOpacity style={globalStyles.optionCircle}>
+            <TouchableOpacity style={styles.circleButton}>
                 <Image
                     source={require('../images/icons/sink.png')}
-                    style={globalStyles.optionIcon}
+                    style={styles.iconMd}
                     resizeMode="contain"
                 />
             </TouchableOpacity>
 
             {/* Middle - Search */}
-            <TextInput placeholder="Search..." style={globalStyles.searchInput}/>
+            <TextInput placeholder="Search..." style={styles.searchInput}/>
 
             {/* Right - Settings */}
-            <TouchableOpacity style={globalStyles.optionCircle}>
+            <TouchableOpacity 
+                style={styles.circleButton}
+                onPress={() => setModalVisible(true)}
+            >
                 <Image
-                source={require('../images/icons/filter.png')}
-                style={globalStyles.optionIcon}
-                resizeMode="contain"
+                    source={require('../images/icons/filter.png')}
+                    style={styles.iconMd}
+                    resizeMode="contain"
                 />
             </TouchableOpacity>
+            <OptionsModal visible={modalVisible} onClose={() => setModalVisible(false)}/>
         </View>
     )
 }

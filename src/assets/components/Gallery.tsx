@@ -1,6 +1,7 @@
 import { View, Text, FlatList } from 'react-native';
-import { globalStyles } from '../styles/globalStyle';
+import { createGlobalStyles } from '../styles/globalStyle';
 import BookCard from './bookCard';
+import { useTheme } from '../../context/ThemeContext';
 
 const data = Array.from({ length: 10 }, (_, i) => ({
   id: i.toString(),
@@ -8,15 +9,18 @@ const data = Array.from({ length: 10 }, (_, i) => ({
 }));
 
 export default function Gallery() {
+  const { theme } = useTheme();
+  const styles = createGlobalStyles(theme);
+
   return (
-    <View style={globalStyles.galleryContainer}>
+    <View style={styles.galleryContainer}>
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <BookCard title={item.title} />
         )}
-        contentContainerStyle={globalStyles.galleryContent}
+        contentContainerStyle={styles.galleryContent}
         showsVerticalScrollIndicator={true}
         numColumns={2}
       />

@@ -72,7 +72,7 @@ export default function AddBookScreen() {
                                 {errors.author && touched.author && (<Text style={styles.error}>{errors.author}</Text>)}
 
                                 <View style={{ marginBottom: 10 }}>
-                                    <Text style={{ marginBottom: 5 }}>Genre</Text>
+                                    <Text style={[styles.text, { marginBottom: 5 }]}>Genre</Text>
 
                                     <View style={styles.genreContainer}>
                                         {['fiction', 'nonfiction', 'fantasy', 'scifi', 'mystery', 'biography'].map(
@@ -89,7 +89,7 @@ export default function AddBookScreen() {
                                                 style={
                                                 values.genre === genre
                                                     ? styles.genreTextSelected
-                                                    : undefined
+                                                    : styles.genreText
                                                 }
                                             >
                                                 {genre}

@@ -21,7 +21,11 @@ export default function Options() {
             </TouchableOpacity>
 
             {/* Middle - Search */}
-            <TextInput placeholder="Search..." style={styles.searchInput}/>
+            <TextInput
+                placeholder="Search..."
+                placeholderTextColor={theme.secondaryBackground}
+                style={styles.searchInput}
+            />
 
             {/* Right - Settings */}
             <TouchableOpacity 

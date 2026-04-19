@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { lightColors } from '../shared/colors';
 
-
 export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   container: {
     flex: 1,
@@ -12,7 +11,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   },
   box: {
     width: '80%',
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 20,
     alignItems: 'center',
@@ -21,7 +20,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   section: {
     width: '100%',
     flex: 1,
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 12,
     marginBottom: 10,
     alignItems: 'center',
@@ -41,6 +40,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     width: '100%',
+    color: theme.text,
   },
   button: {
     backgroundColor: theme.primary,
@@ -50,7 +50,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     marginTop: 5,
   },
   buttonText: {
-    color: theme.textInverse,
+    color: theme.onPrimary,
     textAlign: 'center',
   },
   link: {
@@ -59,14 +59,14 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     marginTop: 15,
   },
   error: {
-    color: 'red',
+    color: theme.error,
     fontSize: 12,
     marginBottom: 5,
   },
   text: {
     fontSize: 16,
     color: theme.text,
-    fontFamily: 'CustomFontRegular'
+    fontFamily: 'CustomFontRegular',
   },
   headerContainer: {
     width: '100%',
@@ -81,7 +81,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -91,7 +91,8 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   },
   headerTitle: {
     fontSize: 22,
-    fontFamily: 'CustomFontBold'
+    fontFamily: 'CustomFontBold',
+    color: theme.onPrimary,
   },
   optionsContainer: {
     width: '100%',
@@ -108,10 +109,11 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   searchInput: {
     flex: 1,
     marginHorizontal: 10,
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 12,
     paddingHorizontal: 15,
     height: 50,
+    color: theme.text,
   },
   galleryContainer: {
     flex: 1,
@@ -122,7 +124,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   },
   card: {
     flex: 1,
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 10,
     margin: 5,
@@ -150,6 +152,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     flex: 1,
+    color: theme.text,
   },
   cardActions: {
     flexDirection: 'row',
@@ -172,14 +175,14 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     right: 10,
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 20,
   },
   sectionTitle: {
-  fontSize: 16,
-  color: theme.text,
-  fontFamily: 'CustomFontBold',
-  marginBottom: 10,
+    fontSize: 16,
+    color: theme.text,
+    fontFamily: 'CustomFontBold',
+    marginBottom: 10,
   },
   placeholderBox: {
     width: '100%',
@@ -203,12 +206,15 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   genreItemSelected: {
     backgroundColor: theme.primary,
   },
+  genreText: {
+    color: theme.text,
+  },
   genreTextSelected: {
-    color: theme.textInverse,
+    color: theme.onPrimary,
   },
   buttonRow: {
-  flexDirection: 'row',
-  justifyContent: 'space-evenly',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
   },
   secondaryButtonText: {
     color: theme.text,
@@ -221,7 +227,7 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   },
   modalContent: {
     width: '80%',
-    backgroundColor: theme.textInverse,
+    backgroundColor: theme.surface,
     borderRadius: 12,
     padding: 20,
   },

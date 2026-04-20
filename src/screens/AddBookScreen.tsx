@@ -3,6 +3,9 @@ import * as Yup from 'yup';
 import { createGlobalStyles } from '../assets/styles/globalStyle';
 import { Formik } from 'formik';
 import { useTheme } from '../context/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/types';
 
 const AddBookSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -13,6 +16,7 @@ const AddBookSchema = Yup.object().shape({
 });
 
 export default function AddBookScreen() {
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
     
@@ -42,7 +46,7 @@ export default function AddBookScreen() {
                             publishDate: '',
                         }}
                         validationSchema={AddBookSchema}
-                        onSubmit={(values) => console.log(values)}
+                        onSubmit={() => navigation.goBack()}
                     >
                         {({
                             handleChange,
@@ -123,8 +127,8 @@ export default function AddBookScreen() {
                                     <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
                                         <Text style={styles.buttonText}>Add Book</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.button}>
-                                        <Text style={styles.secondaryButtonText}>Back</Text>
+                                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+                                        <Text style={styles.buttonText}>Back</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>

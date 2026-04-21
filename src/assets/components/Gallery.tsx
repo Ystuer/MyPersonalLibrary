@@ -1,22 +1,13 @@
-import { useState } from 'react';
 import { View, FlatList } from 'react-native';
 import { createGlobalStyles } from '../styles/globalStyle';
 import BookCard from './bookCard';
 import { useTheme } from '../../context/ThemeContext';
-
-const initialData = Array.from({ length: 10 }, (_, i) => ({
-  id: i.toString(),
-  title: `Beyond the ocean door`,
-}));
+import { useBooks } from '../../context/BooksContext';
 
 export default function Gallery() {
   const { theme, isCompact } = useTheme();
   const styles = createGlobalStyles(theme);
-  const [books, setBooks] = useState(initialData);
-
-  const handleDelete = (id: string) => {
-    setBooks((prev) => prev.filter((book) => book.id !== id));
-  };
+  const { books, deleteBook } = useBooks();
 
   return (
     <View style={styles.galleryContainer}>
@@ -25,7 +16,7 @@ export default function Gallery() {
         data={books}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <BookCard title={item.title} isCompact={isCompact} onDelete={() => handleDelete(item.id)} />
+          <BookCard title={item.title} isCompact={isCompact} onDelete={() => deleteBook(item.id)} />
         )}
         contentContainerStyle={styles.galleryContent}
         showsVerticalScrollIndicator={true}

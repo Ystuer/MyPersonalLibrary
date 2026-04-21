@@ -1,4 +1,6 @@
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useState } from 'react';
+import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
 import { createGlobalStyles } from '../assets/styles/globalStyle';
 import { Formik } from 'formik';
@@ -6,6 +8,9 @@ import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
+import { useBooks } from '../context/BooksContext';
+
+type AddBookNavProp = NativeStackNavigationProp<RootStackParamList>;
 
 const AddBookSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -16,118 +21,126 @@ const AddBookSchema = Yup.object().shape({
 });
 
 export default function AddBookScreen() {
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const navigation = useNavigation<AddBookNavProp>();
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
-    
+    const { addBook } = useBooks();
+
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
             <View style={styles.container}>
-                {/* First Division */}
+                {/* API Search Placeholder */}
                 <View style={styles.box}>
                     <Text style={styles.sectionTitle}>Add new Title</Text>
                     <View style={styles.placeholderBox}>
-                        <Text>API / Search Placeholder</Text>
+                        <Text style={styles.text}>API / Search Placeholder</Text>
                     </View>
                 </View>
 
-                {/* Second Division */}
+                {/* Manual Entry */}
                 <View style={styles.box}>
-                    <Text style={styles.sectionTitle}>
-                        Didn't find it? Do it manually
-                    </Text>
+                    <Text style={styles.sectionTitle}>Didn't find it? Do it manually</Text>
 
                     <Formik
-                        initialValues={{
-                            title: '',
-                            author: '',
-                            genre: '',
-                            pages: '',
-                            publishDate: '',
-                        }}
+                        initialValues={{ title: '', author: '', genre: '', pages: '', publishDate: '' }}
                         validationSchema={AddBookSchema}
-                        onSubmit={() => navigation.goBack()}
+                        onSubmit={(values) => {
+                            addBook(values);
+                            navigation.goBack();
+                        }}
                     >
-                        {({
-                            handleChange,
-                            handleBlur,
-                            handleSubmit,
-                            values,
-                            errors,
-                            touched,
-                        }) =>(
+                        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => (
                             <View style={{ width: '100%' }}>
-                                <TextInput 
+
+                                {/* Cover Placeholder */}
+                                <View style={[styles.placeholderBox, { marginBottom: 15 }]}>
+                                    <Text style={styles.text}>Cover Image (coming soon)</Text>
+                                </View>
+
+                                <TextInput
                                     placeholder='Title'
+                                    placeholderTextColor={theme.secondaryBackground}
                                     style={styles.input}
                                     onChangeText={handleChange('title')}
                                     onBlur={handleBlur('title')}
                                     value={values.title}
                                 />
-                                {errors.title && touched.title && (<Text style={styles.error}>{errors.title}</Text>)}
+                                {errors.title && touched.title && <Text style={styles.error}>{errors.title}</Text>}
 
                                 <TextInput
                                     placeholder='Author'
+                                    placeholderTextColor={theme.secondaryBackground}
                                     style={styles.input}
                                     onChangeText={handleChange('author')}
                                     onBlur={handleBlur('author')}
                                     value={values.author}
                                 />
-                                {errors.author && touched.author && (<Text style={styles.error}>{errors.author}</Text>)}
+                                {errors.author && touched.author && <Text style={styles.error}>{errors.author}</Text>}
 
+                                {/* Genre */}
                                 <View style={{ marginBottom: 10 }}>
                                     <Text style={[styles.text, { marginBottom: 5 }]}>Genre</Text>
-
                                     <View style={styles.genreContainer}>
-                                        {['fiction', 'nonfiction', 'fantasy', 'scifi', 'mystery', 'biography'].map(
-                                        (genre) => (
+                                        {['fiction', 'nonfiction', 'fantasy', 'scifi', 'mystery', 'biography'].map((genre) => (
                                             <TouchableOpacity
-                                            key={genre}
-                                            style={[
-                                                styles.genreItem,
-                                                values.genre === genre && styles.genreItemSelected,
-                                            ]}
-                                            onPress={() => handleChange('genre')(genre)}
+                                                key={genre}
+                                                style={[styles.genreItem, values.genre === genre && styles.genreItemSelected]}
+                                                onPress={() => handleChange('genre')(genre)}
                                             >
-                                            <Text
-                                                style={
-                                                values.genre === genre
-                                                    ? styles.genreTextSelected
-                                                    : styles.genreText
-                                                }
-                                            >
-                                                {genre}
-                                            </Text>
+                                                <Text style={values.genre === genre ? styles.genreTextSelected : styles.genreText}>
+                                                    {genre}
+                                                </Text>
                                             </TouchableOpacity>
-                                        )
-                                        )}
+                                        ))}
                                     </View>
                                 </View>
-                                {errors.genre && touched.genre && (<Text style={styles.error}>{errors.genre}</Text>)}
+                                {errors.genre && touched.genre && <Text style={styles.error}>{errors.genre}</Text>}
 
                                 <TextInput
                                     placeholder="Total Pages"
+                                    placeholderTextColor={theme.secondaryBackground}
                                     style={styles.input}
                                     keyboardType="numeric"
                                     onChangeText={handleChange('pages')}
                                     onBlur={handleBlur('pages')}
                                     value={values.pages}
                                 />
-                                {errors.pages && touched.pages && (<Text style={styles.error}>{errors.pages}</Text>)}
+                                {errors.pages && touched.pages && <Text style={styles.error}>{errors.pages}</Text>}
 
-                                <TextInput
-                                    placeholder="Publish Date"
-                                    style={styles.input}
-                                    onChangeText={handleChange('publishDate')}
-                                    onBlur={handleBlur('publishDate')}
-                                    value={values.publishDate}
-                                />
-                                {errors.publishDate && touched.publishDate && (<Text style={styles.error}>{errors.publishDate}</Text>)}
+                                {/* Date Picker */}
+                                <TouchableOpacity
+                                    style={[styles.input, { justifyContent: 'center' }]}
+                                    onPress={() => setShowDatePicker(true)}
+                                >
+                                    <Text style={{ color: values.publishDate ? theme.text : theme.secondaryBackground }}>
+                                        {values.publishDate || 'Publish Date'}
+                                    </Text>
+                                </TouchableOpacity>
+                                {errors.publishDate && touched.publishDate && <Text style={styles.error}>{errors.publishDate}</Text>}
+
+                                {showDatePicker && (
+                                    <DateTimePicker
+                                        value={selectedDate}
+                                        mode="date"
+                                        display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                                        onChange={(_, date) => {
+                                            setShowDatePicker(Platform.OS === 'ios');
+                                            if (date) {
+                                                setSelectedDate(date);
+                                                setFieldValue('publishDate', date.toLocaleDateString());
+                                            }
+                                        }}
+                                    />
+                                )}
+
                                 <View style={styles.buttonRow}>
-                                    <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
+                                    <TouchableOpacity onPress={() => handleSubmit()} style={[styles.button, { flex: 1, marginHorizontal: 5 }]}>
                                         <Text style={styles.buttonText}>Add Book</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
+                                    <TouchableOpacity style={[styles.button, { flex: 1, marginHorizontal: 5 }]} onPress={() => navigation.goBack()}>
                                         <Text style={styles.buttonText}>Back</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -137,5 +150,5 @@ export default function AddBookScreen() {
                 </View>
             </View>
         </ScrollView>
-    )
+    );
 }

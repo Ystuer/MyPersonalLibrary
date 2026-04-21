@@ -219,6 +219,15 @@ export const createGlobalStyles = (theme = lightColors) => StyleSheet.create({
   secondaryButtonText: {
     color: theme.text,
   },
+  buttonDanger: {
+    backgroundColor: theme.error,
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center' as const,
+    marginTop: 5,
+    flex: 1,
+    marginHorizontal: 5,
+  },
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',

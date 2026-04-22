@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { darkColors, lightColors } from '../assets/shared/colors';
-
+import { toggleTheme, toggleViewMode } from '../store/preferencesSlice';
+import type { RootState, AppDispatch } from '../store/store';
 
 type ThemeType = typeof lightColors;
 
@@ -15,16 +17,20 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [isDark, setIsDark] = useState(false);
-  const [isCompact, setIsCompact] = useState(false);
-
-  const toggleTheme = () => setIsDark((prev) => !prev);
-  const toggleViewMode = () => setIsCompact((prev) => !prev);
+  const dispatch = useDispatch<AppDispatch>();
+  const isDark = useSelector((state: RootState) => state.preferences.isDarkMode);
+  const isCompact = useSelector((state: RootState) => state.preferences.isCompact);
 
   const theme = isDark ? darkColors : lightColors;
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, isCompact, toggleViewMode }}>
+    <ThemeContext.Provider value={{
+      theme,
+      isDark,
+      toggleTheme: () => dispatch(toggleTheme()),
+      isCompact,
+      toggleViewMode: () => dispatch(toggleViewMode()),
+    }}>
       {children}
     </ThemeContext.Provider>
   );

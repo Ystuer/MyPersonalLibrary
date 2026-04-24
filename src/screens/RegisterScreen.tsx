@@ -1,5 +1,5 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
-import { createGlobalStyles } from "../assets/styles/globalStyle";
+import { createGlobalStyles } from "../styles/globalStyle";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTheme } from "../context/ThemeContext";

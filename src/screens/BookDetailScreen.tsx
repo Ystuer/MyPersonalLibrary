@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/types';
 import { useBooks } from '../context/BooksContext';
 import { useTheme } from '../context/ThemeContext';
-import { createGlobalStyles } from '../assets/styles/globalStyle';
+import { createGlobalStyles } from '../styles/globalStyle';
 
 type BookDetailRouteProp = RouteProp<RootStackParamList, 'BookDetail'>;
 type BookDetailNavProp = NativeStackNavigationProp<RootStackParamList>;

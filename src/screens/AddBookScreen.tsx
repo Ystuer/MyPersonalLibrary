@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
-import { createGlobalStyles } from '../assets/styles/globalStyle';
+import { createGlobalStyles } from '../styles/globalStyle';
 import { Formik } from 'formik';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';

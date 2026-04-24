@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/types';
+import { RootStackParamList } from '../navigation/types';
 import { createGlobalStyles } from '../styles/globalStyle';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 
 type BookCardNavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -28,14 +28,14 @@ export default function BookCard({ title, bookId, isCompact, onDelete }: Props) 
 
         <View style={styles.cardActions}>
           <TouchableOpacity>
-            <Image source={require('../images/icons/gear.png')} style={styles.iconSm} />
+            <Image source={require('../assets/images/icons/gear.png')} style={styles.iconSm} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setShowDeleteModal(true)}>
-            <Image source={require('../images/icons/bin.png')} style={styles.iconSm} />
+            <Image source={require('../assets/images/icons/bin.png')} style={styles.iconSm} />
           </TouchableOpacity>
           {isCompact && (
             <TouchableOpacity onPress={() => navigation.navigate('BookDetail', { bookId })}>
-              <Image source={require('../images/icons/info.png')} style={styles.iconSm} />
+              <Image source={require('../assets/images/icons/info.png')} style={styles.iconSm} />
             </TouchableOpacity>
           )}
         </View>
@@ -44,12 +44,12 @@ export default function BookCard({ title, bookId, isCompact, onDelete }: Props) 
       {!isCompact && (
         <View style={styles.cardBody}>
           <Image
-            source={require('../images/testCover.jpg')}
+            source={require('../assets/images/testCover.jpg')}
             style={styles.cardImage}
             resizeMode="contain"
           />
           <TouchableOpacity style={styles.infoIconContainer} onPress={() => navigation.navigate('BookDetail', { bookId })}>
-            <Image source={require('../images/icons/info.png')} style={styles.iconSm} />
+            <Image source={require('../assets/images/icons/info.png')} style={styles.iconSm} />
           </TouchableOpacity>
         </View>
       )}

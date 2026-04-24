@@ -1,6 +1,6 @@
 import { Image, View, Text, TouchableOpacity } from "react-native";
 import { createGlobalStyles } from "../styles/globalStyle";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Header() {
     const { theme } = useTheme();
@@ -11,7 +11,7 @@ export default function Header() {
             {/* Left - Logo */}
             <View style={styles.circleButton}>
                 <Image
-                    source={require('../images/MinimalistOpenBookIconCropped.png')}
+                    source={require('../assets/images/MinimalistOpenBookIconCropped.png')}
                     style={styles.iconLg}
                     resizeMode="contain"
                 />
@@ -23,7 +23,7 @@ export default function Header() {
             {/* Right - Button */}
             <TouchableOpacity style={styles.circleButton}>
                 <Image
-                source={require('../images/icons/user.png')}
+                source={require('../assets/images/icons/user.png')}
                 style={styles.iconLg}
                 resizeMode="contain"
                 />

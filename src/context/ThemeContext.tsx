@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { darkColors, lightColors } from '../assets/shared/colors';
+import { darkColors, lightColors } from '../shared/colors';
 import { toggleTheme, toggleViewMode } from '../store/preferencesSlice';
 import type { RootState, AppDispatch } from '../store/store';
 

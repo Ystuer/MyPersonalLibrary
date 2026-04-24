@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
-import { createGlobalStyles } from "../assets/styles/globalStyle";
-import Header from "../assets/components/Header";
-import Options from "../assets/components/Options";
-import Gallery from "../assets/components/Gallery";
-import Footer from "../assets/components/Footer";
+import { createGlobalStyles } from "../styles/globalStyle";
+import Header from "../components/Header";
+import Options from "../components/Options";
+import Gallery from "../components/Gallery";
+import Footer from "../components/Footer";
 import { useTheme } from "../context/ThemeContext";
 
 export default function DashboardScreen() {

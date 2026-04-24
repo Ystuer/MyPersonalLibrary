@@ -1,8 +1,8 @@
 import { View, FlatList } from 'react-native';
 import { createGlobalStyles } from '../styles/globalStyle';
-import BookCard from './bookCard';
-import { useTheme } from '../../context/ThemeContext';
-import { useBooks } from '../../context/BooksContext';
+import BookCard from './BookCard';
+import { useTheme } from '../context/ThemeContext';
+import { useBooks } from '../context/BooksContext';
 
 export default function Gallery() {
   const { theme, isCompact } = useTheme();

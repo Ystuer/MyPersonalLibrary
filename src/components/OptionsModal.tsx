@@ -1,6 +1,6 @@
 import { Modal, Switch, Text, TouchableOpacity, View } from "react-native";
 import { createGlobalStyles } from "../styles/globalStyle";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 
 type optionProps = {
     visible: boolean;

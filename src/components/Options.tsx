@@ -2,7 +2,7 @@ import { Image, TextInput, TouchableOpacity, View } from "react-native";
 import { createGlobalStyles } from "../styles/globalStyle";
 import { useState } from "react";
 import OptionsModal from "./OptionsModal";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Options() {
     const [modalVisible, setModalVisible] = useState(false);
@@ -14,7 +14,7 @@ export default function Options() {
             {/* Left - Filter */}
             <TouchableOpacity style={styles.circleButton}>
                 <Image
-                    source={require('../images/icons/sink.png')}
+                    source={require('../assets/images/icons/sink.png')}
                     style={styles.iconMd}
                     resizeMode="contain"
                 />
@@ -33,7 +33,7 @@ export default function Options() {
                 onPress={() => setModalVisible(true)}
             >
                 <Image
-                    source={require('../images/icons/filter.png')}
+                    source={require('../assets/images/icons/filter.png')}
                     style={styles.iconMd}
                     resizeMode="contain"
                 />

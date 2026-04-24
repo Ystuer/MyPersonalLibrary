@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, Modal } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/types';
 import { createGlobalStyles } from '../styles/globalStyle';
 import { useTheme } from '../../context/ThemeContext';
 
+type BookCardNavProp = NativeStackNavigationProp<RootStackParamList>;
+
 type Props = {
   title: string;
+  bookId: string;
   isCompact: boolean;
   onDelete: () => void;
 };
 
-export default function BookCard({ title, isCompact, onDelete }: Props) {
+export default function BookCard({ title, bookId, isCompact, onDelete }: Props) {
+  const navigation = useNavigation<BookCardNavProp>();
   const { theme } = useTheme();
   const styles = createGlobalStyles(theme);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -27,7 +34,7 @@ export default function BookCard({ title, isCompact, onDelete }: Props) {
             <Image source={require('../images/icons/bin.png')} style={styles.iconSm} />
           </TouchableOpacity>
           {isCompact && (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('BookDetail', { bookId })}>
               <Image source={require('../images/icons/info.png')} style={styles.iconSm} />
             </TouchableOpacity>
           )}
@@ -41,7 +48,7 @@ export default function BookCard({ title, isCompact, onDelete }: Props) {
             style={styles.cardImage}
             resizeMode="contain"
           />
-          <TouchableOpacity style={styles.infoIconContainer}>
+          <TouchableOpacity style={styles.infoIconContainer} onPress={() => navigation.navigate('BookDetail', { bookId })}>
             <Image source={require('../images/icons/info.png')} style={styles.iconSm} />
           </TouchableOpacity>
         </View>

@@ -16,7 +16,7 @@ export default function Gallery() {
         data={books}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <BookCard title={item.title} isCompact={isCompact} onDelete={() => deleteBook(item.id)} />
+          <BookCard title={item.title} bookId={item.id} isCompact={isCompact} onDelete={() => deleteBook(item.id)} />
         )}
         contentContainerStyle={styles.galleryContent}
         showsVerticalScrollIndicator={true}

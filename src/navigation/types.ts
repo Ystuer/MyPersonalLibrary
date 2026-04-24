@@ -3,4 +3,5 @@ export type RootStackParamList = {
   Register: undefined;
   Dashboard: undefined;
   AddBook: undefined;
+  BookDetail: { bookId: string };
 };

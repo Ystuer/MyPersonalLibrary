@@ -11,11 +11,12 @@ type BookCardNavProp = NativeStackNavigationProp<RootStackParamList>;
 type Props = {
   title: string;
   bookId: string;
+  coverImage: string | null;
   isCompact: boolean;
   onDelete: () => void;
 };
 
-export default function BookCard({ title, bookId, isCompact, onDelete }: Props) {
+export default function BookCard({ title, bookId, coverImage, isCompact, onDelete }: Props) {
   const navigation = useNavigation<BookCardNavProp>();
   const { theme } = useTheme();
   const styles = createGlobalStyles(theme);
@@ -44,9 +45,9 @@ export default function BookCard({ title, bookId, isCompact, onDelete }: Props) 
       {!isCompact && (
         <View style={styles.cardBody}>
           <Image
-            source={require('../assets/images/testCover.jpg')}
+            source={coverImage ? { uri: coverImage } : require('../assets/images/testCover.jpg')}
             style={styles.cardImage}
-            resizeMode="contain"
+            resizeMode="cover"
           />
           <TouchableOpacity style={styles.infoIconContainer} onPress={() => navigation.navigate('BookDetail', { bookId })}>
             <Image source={require('../assets/images/icons/info.png')} style={styles.iconSm} />

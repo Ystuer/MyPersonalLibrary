@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Image } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
 import { createGlobalStyles } from '../styles/globalStyle';
@@ -28,6 +29,19 @@ export default function AddBookScreen() {
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [coverImage, setCoverImage] = useState<string | null>(null);
+
+    const pickImage = async () => {
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permission.granted) return;
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [2, 3],
+            quality: 0.8,
+        });
+        if (!result.canceled) setCoverImage(result.assets[0].uri);
+    };
 
     return(
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -48,17 +62,21 @@ export default function AddBookScreen() {
                         initialValues={{ title: '', author: '', genre: '', pages: '', publishDate: '' }}
                         validationSchema={AddBookSchema}
                         onSubmit={(values) => {
-                            addBook(values);
+                            addBook({ ...values, coverImage });
                             navigation.goBack();
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => (
                             <View style={{ width: '100%' }}>
 
-                                {/* Cover Placeholder */}
-                                <View style={[styles.placeholderBox, { marginBottom: 15 }]}>
-                                    <Text style={styles.text}>Cover Image (coming soon)</Text>
-                                </View>
+                                {/* Cover Image Picker */}
+                                <TouchableOpacity onPress={pickImage} style={[styles.placeholderBox, { marginBottom: 15 }]}>
+                                    {coverImage ? (
+                                        <Image source={{ uri: coverImage }} style={{ width: '100%', height: '100%', borderRadius: 12 }} resizeMode="cover" />
+                                    ) : (
+                                        <Text style={styles.text}>Tap to select cover image</Text>
+                                    )}
+                                </TouchableOpacity>
 
                                 <TextInput
                                     placeholder='Title'

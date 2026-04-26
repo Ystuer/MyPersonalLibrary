@@ -42,9 +42,9 @@ export default function BookDetailScreen() {
 
         <View style={styles.box}>
           <Image
-            source={require('../assets/images/testCover.jpg')}
+            source={book.coverImage ? { uri: book.coverImage } : require('../assets/images/testCover.jpg')}
             style={{ width: '100%', height: 200, borderRadius: 12 }}
-            resizeMode="contain"
+            resizeMode="cover"
           />
         </View>
 

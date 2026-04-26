@@ -7,6 +7,7 @@ export type Book = {
   genre: string;
   pages: string;
   publishDate: string;
+  coverImage: string | null;
 };
 
 type BooksContextType = {

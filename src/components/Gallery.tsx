@@ -7,7 +7,7 @@ import { useBooks } from '../context/BooksContext';
 export default function Gallery() {
   const { theme, isCompact } = useTheme();
   const styles = createGlobalStyles(theme);
-  const { books, isLoading, deleteBook } = useBooks();
+  const { filteredBooks, isLoading, deleteBook } = useBooks();
 
   if (isLoading) {
     return (
@@ -21,7 +21,7 @@ export default function Gallery() {
     <View style={styles.galleryContainer}>
       <FlatList
         key={isCompact ? 'compact' : 'detailed'}
-        data={books}
+        data={filteredBooks}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <BookCard title={item.title} bookId={item.id} coverImage={item.coverImage} isCompact={isCompact} onDelete={() => deleteBook(item.id)} />

@@ -61,8 +61,8 @@ export default function AddBookScreen() {
                     <Formik
                         initialValues={{ title: '', author: '', genre: '', pages: '', publishDate: '' }}
                         validationSchema={AddBookSchema}
-                        onSubmit={(values) => {
-                            addBook({ ...values, coverImage });
+                        onSubmit={async (values) => {
+                            await addBook({ ...values, coverImage });
                             navigation.goBack();
                         }}
                     >

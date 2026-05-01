@@ -1,4 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { collection, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../config/firebase';
 
 export type Book = {
   id: string;
@@ -12,25 +14,41 @@ export type Book = {
 
 type BooksContextType = {
   books: Book[];
-  addBook: (book: Omit<Book, 'id'>) => void;
-  deleteBook: (id: string) => void;
+  isLoading: boolean;
+  addBook: (book: Omit<Book, 'id'>) => Promise<void>;
+  deleteBook: (id: string) => Promise<void>;
 };
 
 const BooksContext = createContext<BooksContextType | undefined>(undefined);
 
 export function BooksProvider({ children }: { children: React.ReactNode }) {
   const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const addBook = (book: Omit<Book, 'id'>) => {
-    setBooks((prev) => [...prev, { ...book, id: Date.now().toString() }]);
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'books'), (snapshot) => {
+      const fetched = snapshot.docs.map((d) => ({
+        coverImage: null,
+        ...d.data(),
+        id: d.id,
+      } as Book));
+      setBooks(fetched);
+      setIsLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  const addBook = async (book: Omit<Book, 'id'>) => {
+    const { coverImage, ...firestoreData } = book;
+    await addDoc(collection(db, 'books'), firestoreData);
   };
 
-  const deleteBook = (id: string) => {
-    setBooks((prev) => prev.filter((b) => b.id !== id));
+  const deleteBook = async (id: string) => {
+    await deleteDoc(doc(db, 'books', id));
   };
 
   return (
-    <BooksContext.Provider value={{ books, addBook, deleteBook }}>
+    <BooksContext.Provider value={{ books, isLoading, addBook, deleteBook }}>
       {children}
     </BooksContext.Provider>
   );

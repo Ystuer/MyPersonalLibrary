@@ -11,7 +11,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AppStackParamList } from '../navigation/types';
 import { useBooks } from '../context/BooksContext';
 
-type AddBookNavProp = NativeStackNavigationProp<RootStackParamList>;
+type AddBookNavProp = NativeStackNavigationProp<AppStackParamList>;
 
 const AddBookSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
@@ -25,7 +25,7 @@ export default function AddBookScreen() {
     const navigation = useNavigation<AddBookNavProp>();
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
-    const { addBook } = useBooks();
+    const { addBook, error, clearError } = useBooks();
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -35,7 +35,7 @@ export default function AddBookScreen() {
         const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!permission.granted) return;
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images'],
             allowsEditing: true,
             aspect: [2, 3],
             quality: 0.8,
@@ -61,12 +61,24 @@ export default function AddBookScreen() {
                     <Formik
                         initialValues={{ title: '', author: '', genre: '', pages: '', publishDate: '' }}
                         validationSchema={AddBookSchema}
-                        onSubmit={async (values) => {
-                            await addBook({ ...values, coverImage });
-                            navigation.goBack();
+                        onSubmit={async (values, { setSubmitting }) => {
+                            clearError();
+                            try {
+                                await addBook({
+                                    title: values.title,
+                                    author: values.author,
+                                    genre: values.genre,
+                                    publishDate: values.publishDate,
+                                    pages: Number(values.pages),
+                                    coverImage,
+                                });
+                                navigation.goBack();
+                            } finally {
+                                setSubmitting(false);
+                            }
                         }}
                     >
-                        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => (
+                        {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched, isSubmitting }) => (
                             <View style={{ width: '100%' }}>
 
                                 {/* Cover Image Picker */}
@@ -134,7 +146,9 @@ export default function AddBookScreen() {
                                     onPress={() => setShowDatePicker(true)}
                                 >
                                     <Text style={{ color: values.publishDate ? theme.text : theme.secondaryBackground }}>
-                                        {values.publishDate || 'Publish Date'}
+                                        {values.publishDate
+                                            ? new Date(values.publishDate).toLocaleDateString()
+                                            : 'Publish Date'}
                                     </Text>
                                 </TouchableOpacity>
                                 {errors.publishDate && touched.publishDate && <Text style={styles.error}>{errors.publishDate}</Text>}
@@ -148,15 +162,21 @@ export default function AddBookScreen() {
                                             setShowDatePicker(Platform.OS === 'ios');
                                             if (date) {
                                                 setSelectedDate(date);
-                                                setFieldValue('publishDate', date.toLocaleDateString());
+                                                setFieldValue('publishDate', date.toISOString());
                                             }
                                         }}
                                     />
                                 )}
 
+                                {error && <Text style={[styles.error, { marginTop: 8 }]}>{error}</Text>}
+
                                 <View style={styles.buttonRow}>
-                                    <TouchableOpacity onPress={() => handleSubmit()} style={[styles.button, { flex: 1, marginHorizontal: 5 }]}>
-                                        <Text style={styles.buttonText}>Add Book</Text>
+                                    <TouchableOpacity
+                                        onPress={() => handleSubmit()}
+                                        style={[styles.button, { flex: 1, marginHorizontal: 5, opacity: isSubmitting ? 0.6 : 1 }]}
+                                        disabled={isSubmitting}
+                                    >
+                                        <Text style={styles.buttonText}>{isSubmitting ? 'Adding...' : 'Add Book'}</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity style={[styles.button, { flex: 1, marginHorizontal: 5 }]} onPress={() => navigation.goBack()}>
                                         <Text style={styles.buttonText}>Back</Text>

@@ -9,11 +9,11 @@ import { createGlobalStyles } from '../styles/globalStyle';
 type BookDetailRouteProp = RouteProp<AppStackParamList, 'BookDetail'>;
 type BookDetailNavProp = NativeStackNavigationProp<AppStackParamList>;
 
-const fields: { label: string; key: 'author' | 'genre' | 'pages' | 'publishDate' }[] = [
+const fields: { label: string; key: 'author' | 'genre' | 'pages' | 'publishDate'; format?: (v: string | number) => string }[] = [
   { label: 'Author', key: 'author' },
   { label: 'Genre', key: 'genre' },
   { label: 'Pages', key: 'pages' },
-  { label: 'Published', key: 'publishDate' },
+  { label: 'Published', key: 'publishDate', format: (v) => new Date(v as string).toLocaleDateString() },
 ];
 
 export default function BookDetailScreen() {
@@ -51,10 +51,10 @@ export default function BookDetailScreen() {
         <View style={styles.box}>
           <Text style={[styles.sectionTitle, { fontSize: 20 }]}>{book.title}</Text>
 
-          {fields.map(({ label, key }) => (
+          {fields.map(({ label, key, format }) => (
             <View key={key} style={{ width: '100%', marginBottom: 10 }}>
               <Text style={[styles.text, { color: theme.primary, fontSize: 12 }]}>{label}</Text>
-              <Text style={styles.text}>{book[key]}</Text>
+              <Text style={styles.text}>{format ? format(book[key]) : book[key]}</Text>
             </View>
           ))}
         </View>

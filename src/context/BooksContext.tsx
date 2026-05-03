@@ -7,7 +7,7 @@ export type Book = {
   title: string;
   author: string;
   genre: string;
-  pages: string;
+  pages: number;
   publishDate: string;
   coverImage: string | null;
 };
@@ -19,6 +19,8 @@ type BooksContextType = {
   books: Book[];
   filteredBooks: Book[];
   isLoading: boolean;
+  error: string | null;
+  clearError: () => void;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
   sortBy: SortField;
@@ -34,6 +36,7 @@ const BooksContext = createContext<BooksContextType | undefined>(undefined);
 export function BooksProvider({ children }: { children: React.ReactNode }) {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<SortField>('title');
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
@@ -63,7 +66,7 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
         switch (sortBy) {
           case 'title': cmp = a.title.localeCompare(b.title); break;
           case 'author': cmp = a.author.localeCompare(b.author); break;
-          case 'pages': cmp = parseInt(a.pages) - parseInt(b.pages); break;
+          case 'pages': cmp = a.pages - b.pages; break;
           case 'publishDate': cmp = new Date(a.publishDate).getTime() - new Date(b.publishDate).getTime(); break;
         }
         return sortOrder === 'asc' ? cmp : -cmp;
@@ -71,17 +74,27 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
   }, [books, searchQuery, sortBy, sortOrder]);
 
   const addBook = async (book: Omit<Book, 'id'>) => {
-    const { coverImage, ...firestoreData } = book;
-    await addDoc(collection(db, 'books'), firestoreData);
+    try {
+      const { coverImage, ...firestoreData } = book;
+      await addDoc(collection(db, 'books'), firestoreData);
+    } catch (e) {
+      setError('Failed to add book. Please try again.');
+      throw e;
+    }
   };
 
   const deleteBook = async (id: string) => {
-    await deleteDoc(doc(db, 'books', id));
+    try {
+      await deleteDoc(doc(db, 'books', id));
+    } catch (e) {
+      setError('Failed to delete book. Please try again.');
+    }
   };
 
   return (
     <BooksContext.Provider value={{
       books, filteredBooks, isLoading,
+      error, clearError: () => setError(null),
       searchQuery, setSearchQuery,
       sortBy, setSortBy,
       sortOrder, setSortOrder,

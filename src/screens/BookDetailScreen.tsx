@@ -1,13 +1,13 @@
 import { ScrollView, View, Text, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types';
+import { AppStackParamList } from '../navigation/types';
 import { useBooks } from '../context/BooksContext';
 import { useTheme } from '../context/ThemeContext';
 import { createGlobalStyles } from '../styles/globalStyle';
 
-type BookDetailRouteProp = RouteProp<RootStackParamList, 'BookDetail'>;
-type BookDetailNavProp = NativeStackNavigationProp<RootStackParamList>;
+type BookDetailRouteProp = RouteProp<AppStackParamList, 'BookDetail'>;
+type BookDetailNavProp = NativeStackNavigationProp<AppStackParamList>;
 
 const fields: { label: string; key: 'author' | 'genre' | 'pages' | 'publishDate' }[] = [
   { label: 'Author', key: 'author' },

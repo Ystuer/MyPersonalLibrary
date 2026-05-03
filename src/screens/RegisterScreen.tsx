@@ -3,10 +3,11 @@ import { createGlobalStyles } from "../styles/globalStyle";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useTheme } from "../context/ThemeContext";
+import { useAuth } from "../context/AuthContext";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../navigation/types";
+import { AuthStackParamList } from "../navigation/types";
 
-type RegisterNavProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
+type RegisterNavProp = NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 
 const RegisterSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -17,6 +18,7 @@ const RegisterSchema = Yup.object().shape({
 export default function RegisterScreen({ navigation }: { navigation: RegisterNavProp }) {
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
+    const { signIn } = useAuth();
 
     return (
         <View style={styles.container}>
@@ -31,7 +33,7 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
                 <Formik
                     initialValues={{email: '', password: '', repeatPassword: ''}}
                     validationSchema={RegisterSchema}
-                    onSubmit={() => navigation.navigate('Dashboard')}
+                    onSubmit={signIn}
                 >
                     {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                         <View style={{ width: '100%' }}>
@@ -67,7 +69,7 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
                             )}
 
                             <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
-                                <Text style={{ color: '#fff' }}>Register</Text>
+                                <Text style={styles.buttonText}>Register</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={() => navigation.goBack()}>

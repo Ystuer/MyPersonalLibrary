@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigation/types';
+import { AppStackParamList } from '../navigation/types';
 import { useBooks } from '../context/BooksContext';
 
 type AddBookNavProp = NativeStackNavigationProp<RootStackParamList>;

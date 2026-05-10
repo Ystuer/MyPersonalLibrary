@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { collection, onSnapshot, addDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../config/firebase';
+import { useAuth } from './AuthContext';
 
 export type Book = {
   id: string;
@@ -34,6 +35,7 @@ type BooksContextType = {
 const BooksContext = createContext<BooksContextType | undefined>(undefined);
 
 export function BooksProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useAuth();
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -42,7 +44,14 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, 'books'), (snapshot) => {
+    if (!user) {
+      setBooks([]);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+    const unsubscribe = onSnapshot(collection(db, 'users', user.uid, 'books'), (snapshot) => {
       const fetched = snapshot.docs.map((d) => ({
         coverImage: null,
         ...d.data(),
@@ -52,7 +61,7 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     });
     return unsubscribe;
-  }, []);
+  }, [user?.uid]);
 
   const filteredBooks = useMemo(() => {
     const q = searchQuery.toLowerCase();
@@ -74,9 +83,10 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
   }, [books, searchQuery, sortBy, sortOrder]);
 
   const addBook = async (book: Omit<Book, 'id'>) => {
+    if (!user) return;
     try {
       const { coverImage, ...firestoreData } = book;
-      await addDoc(collection(db, 'books'), firestoreData);
+      await addDoc(collection(db, 'users', user.uid, 'books'), firestoreData);
     } catch (e) {
       setError('Failed to add book. Please try again.');
       throw e;
@@ -84,8 +94,9 @@ export function BooksProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteBook = async (id: string) => {
+    if (!user) return;
     try {
-      await deleteDoc(doc(db, 'books', id));
+      await deleteDoc(doc(db, 'users', user.uid, 'books', id));
     } catch (e) {
       setError('Failed to delete book. Please try again.');
     }

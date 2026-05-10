@@ -18,7 +18,7 @@ const RegisterSchema = Yup.object().shape({
 export default function RegisterScreen({ navigation }: { navigation: RegisterNavProp }) {
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
-    const { signIn } = useAuth();
+    const { register, error, clearError } = useAuth();
 
     return (
         <View style={styles.container}>
@@ -33,21 +33,34 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
                 <Formik
                     initialValues={{email: '', password: '', repeatPassword: ''}}
                     validationSchema={RegisterSchema}
-                    onSubmit={signIn}
+                    onSubmit={async (values, { setSubmitting }) => {
+                        clearError();
+                        try {
+                            await register(values.email, values.password);
+                        } catch {
+                            // error is set in AuthContext
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
                 >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
                         <View style={{ width: '100%' }}>
                             <TextInput
                                 placeholder="Email"
+                                placeholderTextColor={theme.secondaryBackground}
                                 style={styles.input}
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
                             />
                             {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
 
                             <TextInput
                                 placeholder="Password"
+                                placeholderTextColor={theme.secondaryBackground}
                                 style={styles.input}
                                 secureTextEntry
                                 onChangeText={handleChange('password')}
@@ -58,6 +71,7 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
 
                             <TextInput
                                 placeholder="Repeat Password"
+                                placeholderTextColor={theme.secondaryBackground}
                                 style={styles.input}
                                 secureTextEntry
                                 onChangeText={handleChange('repeatPassword')}
@@ -68,8 +82,14 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
                                 <Text style={styles.error}>{errors.repeatPassword}</Text>
                             )}
 
-                            <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
-                                <Text style={styles.buttonText}>Register</Text>
+                            {error && <Text style={styles.error}>{error}</Text>}
+
+                            <TouchableOpacity
+                                onPress={() => handleSubmit()}
+                                style={[styles.button, { opacity: isSubmitting ? 0.6 : 1 }]}
+                                disabled={isSubmitting}
+                            >
+                                <Text style={styles.buttonText}>{isSubmitting ? 'Registering...' : 'Register'}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={() => navigation.goBack()}>

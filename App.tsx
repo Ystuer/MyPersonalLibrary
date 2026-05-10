@@ -40,8 +40,15 @@ function AppNavigator() {
   );
 }
 
-function RootNavigator() {
-  const { isAuthenticated } = useAuth();
+function RootNavigator({ fontsLoaded }: { fontsLoaded: boolean }) {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+
+  useEffect(() => {
+    if (fontsLoaded && !authLoading) SplashScreen.hideAsync();
+  }, [fontsLoaded, authLoading]);
+
+  if (!fontsLoaded || authLoading) return null;
+
   return (
     <NavigationContainer>
       {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
@@ -55,19 +62,13 @@ export default function App() {
     CustomFontBold: require('./src/assets/fonts/Dosis-Bold.ttf'),
   });
 
-  useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <AuthProvider>
           <ThemeProvider>
             <BooksProvider>
-              <RootNavigator />
+              <RootNavigator fontsLoaded={fontsLoaded ?? false} />
             </BooksProvider>
           </ThemeProvider>
         </AuthProvider>

@@ -17,7 +17,7 @@ const LoginSchema = Yup.object().shape({
 export default function LoginScreen({ navigation }: { navigation: LoginNavProp }) {
     const { theme } = useTheme();
     const styles = createGlobalStyles(theme);
-    const { signIn } = useAuth();
+    const { signIn, error, clearError } = useAuth();
 
     return (
         <View style={styles.container}>
@@ -32,21 +32,34 @@ export default function LoginScreen({ navigation }: { navigation: LoginNavProp }
                 <Formik
                     initialValues={{ email: '', password: '' }}
                     validationSchema={LoginSchema}
-                    onSubmit={signIn}
-                    >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    onSubmit={async (values, { setSubmitting }) => {
+                        clearError();
+                        try {
+                            await signIn(values.email, values.password);
+                        } catch {
+                            // error is set in AuthContext
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
                         <View style={{ width: '100%' }}>
                             <TextInput
                                 placeholder="Email"
+                                placeholderTextColor={theme.secondaryBackground}
                                 style={styles.input}
                                 onChangeText={handleChange('email')}
                                 onBlur={handleBlur('email')}
                                 value={values.email}
+                                keyboardType="email-address"
+                                autoCapitalize="none"
                             />
                             {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
 
                             <TextInput
                                 placeholder="Password"
+                                placeholderTextColor={theme.secondaryBackground}
                                 style={styles.input}
                                 secureTextEntry
                                 onChangeText={handleChange('password')}
@@ -55,8 +68,14 @@ export default function LoginScreen({ navigation }: { navigation: LoginNavProp }
                             />
                             {errors.password && touched.password && <Text style={styles.error}>{errors.password}</Text>}
 
-                            <TouchableOpacity onPress={() => handleSubmit()} style={styles.button}>
-                                <Text style={styles.buttonText}>Login</Text>
+                            {error && <Text style={styles.error}>{error}</Text>}
+
+                            <TouchableOpacity
+                                onPress={() => handleSubmit()}
+                                style={[styles.button, { opacity: isSubmitting ? 0.6 : 1 }]}
+                                disabled={isSubmitting}
+                            >
+                                <Text style={styles.buttonText}>{isSubmitting ? 'Signing in...' : 'Login'}</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={() => navigation.navigate('Register')}>

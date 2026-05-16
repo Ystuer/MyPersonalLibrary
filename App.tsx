@@ -1,60 +1,14 @@
 import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './src/store/store';
-import { AuthProvider, useAuth } from './src/context/AuthContext';
+import { AuthProvider } from './src/context/AuthContext';
 import { ThemeProvider } from './src/context/ThemeContext';
 import { BooksProvider } from './src/context/BooksContext';
-import LoginScreen from './src/screens/LoginScreen';
-import RegisterScreen from './src/screens/RegisterScreen';
-import DashboardScreen from './src/screens/DashboardScreen';
-import AddBookScreen from './src/screens/AddBookScreen';
-import BookDetailScreen from './src/screens/BookDetailScreen';
-import { AuthStackParamList, AppStackParamList } from './src/navigation/types';
+import RootNavigator from './src/navigation/AppNavigator';
 
+import * as SplashScreen from 'expo-splash-screen';
 SplashScreen.preventAutoHideAsync();
-
-const AuthStack = createNativeStackNavigator<AuthStackParamList>();
-const AppStack = createNativeStackNavigator<AppStackParamList>();
-
-function AuthNavigator() {
-  return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="Register" component={RegisterScreen} />
-    </AuthStack.Navigator>
-  );
-}
-
-function AppNavigator() {
-  return (
-    <AppStack.Navigator screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="Dashboard" component={DashboardScreen} />
-      <AppStack.Screen name="AddBook" component={AddBookScreen} />
-      <AppStack.Screen name="BookDetail" component={BookDetailScreen} />
-    </AppStack.Navigator>
-  );
-}
-
-function RootNavigator({ fontsLoaded }: { fontsLoaded: boolean }) {
-  const { isAuthenticated, isLoading: authLoading } = useAuth();
-
-  useEffect(() => {
-    if (fontsLoaded && !authLoading) SplashScreen.hideAsync();
-  }, [fontsLoaded, authLoading]);
-
-  if (!fontsLoaded || authLoading) return null;
-
-  return (
-    <NavigationContainer>
-      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
-  );
-}
 
 export default function App() {
   const [fontsLoaded] = useFonts({

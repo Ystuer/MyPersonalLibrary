@@ -1,6 +1,5 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { createGlobalStyles } from "../styles/globalStyle";
-import Header from "../components/Header";
 import Options from "../components/Options";
 import Gallery from "../components/Gallery";
 import Footer from "../components/Footer";
@@ -12,17 +11,9 @@ export default function DashboardScreen() {
 
     return (
         <View style={styles.container}>
-            {/* Header */}
-            <Header />
-
-            {/* Options */}
             <Options />
-
-            {/* Gallery */}
             <Gallery />
-
-            {/* Footer */}
             <Footer />
         </View>
-    )
+    );
 }

@@ -8,3 +8,8 @@ export type AppStackParamList = {
   AddBook: undefined;
   BookDetail: { bookId: string };
 };
+
+export type AppTabParamList = {
+  Library: undefined;
+  Profile: undefined;
+};

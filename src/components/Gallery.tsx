@@ -3,11 +3,22 @@ import { createGlobalStyles } from '../styles/globalStyle';
 import BookCard from './BookCard';
 import { useTheme } from '../context/ThemeContext';
 import { useBooks } from '../context/BooksContext';
+import { Book } from '../context/BooksContext';
 
 export default function Gallery() {
   const { theme, isCompact } = useTheme();
   const styles = createGlobalStyles(theme);
   const { filteredBooks, isLoading, deleteBook } = useBooks();
+
+  const renderBook = ({ item }: { item: Book }) => (
+    <BookCard
+      title={item.title}
+      bookId={item.id}
+      coverImage={item.coverImage}
+      isCompact={isCompact}
+      onDelete={() => deleteBook(item.id)}
+    />
+  );
 
   if (isLoading) {
     return (
@@ -23,9 +34,7 @@ export default function Gallery() {
         key={isCompact ? 'compact' : 'detailed'}
         data={filteredBooks}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <BookCard title={item.title} bookId={item.id} coverImage={item.coverImage} isCompact={isCompact} onDelete={() => deleteBook(item.id)} />
-        )}
+        renderItem={renderBook}
         contentContainerStyle={styles.galleryContent}
         showsVerticalScrollIndicator={true}
         numColumns={isCompact ? 1 : 2}

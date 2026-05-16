@@ -18,20 +18,14 @@ export default function Header({ title, canGoBack = false, onBack }: HeaderProps
 
   return (
     <View style={styles.headerContainer}>
-      {/* Left - back button or logo */}
-      {canGoBack ? (
-        <TouchableOpacity style={styles.circleButton} onPress={onBack}>
-          <Text style={[styles.headerTitle, { fontSize: 20 }]}>‹</Text>
-        </TouchableOpacity>
-      ) : (
-        <View style={styles.circleButton}>
-          <Image
-            source={require('../assets/images/MinimalistOpenBookIconCropped.png')}
-            style={styles.iconLg}
-            resizeMode="contain"
-          />
-        </View>
-      )}
+      {/* Left - logo, pressable as back button on child screens */}
+      <TouchableOpacity style={styles.circleButton} onPress={canGoBack ? onBack : undefined} disabled={!canGoBack}>
+        <Image
+          source={require('../assets/images/MinimalistOpenBookIconCropped.png')}
+          style={styles.iconLg}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
 
       {/* Middle - Title */}
       <Text style={styles.headerTitle}>{title}</Text>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Image } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -79,12 +79,18 @@ function AppNavigator() {
 
 export default function RootNavigator({ fontsLoaded }: { fontsLoaded: boolean }) {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false);
 
   useEffect(() => {
-    if (fontsLoaded && !authLoading) SplashScreen.hideAsync();
-  }, [fontsLoaded, authLoading]);
+    const timer = setTimeout(() => setMinTimeElapsed(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
-  if (!fontsLoaded || authLoading) return null;
+  useEffect(() => {
+    if (fontsLoaded && !authLoading && minTimeElapsed) SplashScreen.hideAsync();
+  }, [fontsLoaded, authLoading, minTimeElapsed]);
+
+  if (!fontsLoaded || authLoading || !minTimeElapsed) return null;
 
   return (
     <NavigationContainer>

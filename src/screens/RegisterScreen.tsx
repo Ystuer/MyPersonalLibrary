@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import { createGlobalStyles } from "../styles/globalStyle";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -21,6 +21,8 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
     const { register, error, clearError } = useAuth();
 
     return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.container}>
             <View style={styles.imageBox}>
                 <Image
@@ -100,5 +102,7 @@ export default function RegisterScreen({ navigation }: { navigation: RegisterNav
                 </Formik>
             </View>
         </View>
+        </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     );
 }

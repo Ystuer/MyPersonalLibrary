@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Image } from 'react-native';
+import { ScrollView, Text, TextInput, TouchableOpacity, View, Platform, Image, KeyboardAvoidingView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as Yup from 'yup';
@@ -44,7 +44,8 @@ export default function AddBookScreen() {
     };
 
     return(
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>
                 {/* API Search Placeholder */}
                 <View style={styles.box}>
@@ -188,5 +189,6 @@ export default function AddBookScreen() {
                 </View>
             </View>
         </ScrollView>
+        </KeyboardAvoidingView>
     );
 }

@@ -4,7 +4,7 @@
     "slug": "MyPersonalLibrary",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/images/MinimalistOpenBookIconCropped.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
@@ -18,7 +18,7 @@
     "android": {
       "package": "com.ystuer.mypersonallibrary",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/MinimalistOpenBookIconCropped.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,

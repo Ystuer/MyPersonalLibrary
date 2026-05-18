@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Image, Modal, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createGlobalStyles } from '../styles/globalStyle';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
@@ -15,9 +16,10 @@ export default function Header({ title, canGoBack = false, onBack }: HeaderProps
   const styles = createGlobalStyles(theme);
   const { signOut } = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, { paddingTop: insets.top + 10 }]}>
       {/* Left - logo, pressable as back button on child screens */}
       <TouchableOpacity style={styles.circleButton} onPress={canGoBack ? onBack : undefined} disabled={!canGoBack}>
         <Image
